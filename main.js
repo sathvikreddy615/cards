@@ -1,34 +1,60 @@
 let createBtn = document.querySelector("#create-btn");
-let textBox = document.querySelector("#text-box");
 let cardContainer = document.querySelector("#card-container");
-let deleteBtn = document.querySelector("#delete-btn");
-let colorPickerOne = document.querySelector("#color-picker-one");
-let colorPickerTwo = document.querySelector("#color-picker-two");
+// 
 
-// functionality
 
-const createRemove = () => {
-    createBtn.addEventListener("click", () => {
-        let userText = textBox.value;
-        let card = `<div id="card">    
-        <input type="color" id="color-picker-one" value="#ff0000">
-        <input type="color" id="color-picker-two" value="#ff0000">
-        <button id="delete-btn">Delete</button>
-        <p id="inserText">${userText}</p>
-    </div>`
-        cardContainer.innerHTML += card;   
-    })
+createBtn.addEventListener("click", () => {
     
-    deleteBtn.addEventListener("click", () => {
-        cardContainer.removeChild(card);
-    })
-}
+    const colorPickerOne = () => {
+        let input1 = document.createElement("input");
+        input1.type = "color";
+        input1.className = "picker1";
+        input1.name = "picker1";
+        input1.addEventListener("change", changeBackgroundColor);
+        return input1;
+    }
 
-createRemove();
+    const changeBackgroundColor = () => {
+        event.target.parentNode.style.backgroundColor = event.target.value;
+    }
 
+    const colorPickerTwo = () => {
+        let input2 = document.createElement("input");
+        input2.type = "color";
+        input2.className = "picker2";
+        input2.name = "picker2";
+        input2.addEventListener("change", changeFontColor);
+        return input2;
+    }
 
+    const changeFontColor = () => {
+        event.target.parentNode.style.color = event.target.value;
+    }
 
+    let card = document.createElement("div");
+    card.className = "card";
 
+    const deleteButton = () => {
+        let deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.innerHTML = "Delete";
+        deleteBtn.addEventListener("click", () => {
+            event.target.parentNode.remove();
+        });
+        return deleteBtn;
+    }
 
+    const addUserText = () => {
+        let userText = document.querySelector("#text-box").value;
+        let injectText = document.createElement("p");
+        injectText.textContent = userText;
+        return injectText;
+    }
 
+    cardContainer.appendChild(card);
+    card.appendChild(colorPickerOne());
+    card.appendChild(colorPickerTwo());
+    card.appendChild(deleteButton());
+    card.appendChild(addUserText());
 
+})
